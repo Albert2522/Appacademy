@@ -21,7 +21,7 @@ end
 class LinkedList
   include Enumerable
 
-  attr_accessor :curr_link
+  attr_accessor :curr_link, :head, :tail
   def initialize
     @tail = Link.new
     @head = @tail
@@ -73,8 +73,27 @@ class LinkedList
 
   end
 
+  def put_in_tail(link)
+    tmp = link
+    self.remove(link.key)
+    @tail.next = tmp
+    tmp.prev = @tail
+    tmp.next = nil
+    @tail = tmp
+  end
+
   def update(key, val)
     @curr_link.val = val if include?(key)
+  end
+
+  def count
+    tmp = @head
+    counter = 0
+    while tmp
+      counter += 1
+      tmp = tmp.next
+    end
+    counter
   end
 
   def remove(key)

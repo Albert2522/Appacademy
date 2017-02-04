@@ -30,14 +30,21 @@ class LRUCache
   private
 
   def calc!(key)
-    @map[key] = Link.new(key, @prc.call(key))
-    update_link!(@map[key])
+    eject!
+    val = @prc.call(key)
+    @store.append(key, val)
+    @map[key] = @store.last
   end
 
   def update_link!(link)
-    # suggested helper method; move a link to the end of the list
+    @store.put_in_tail(link)
   end
 
   def eject!
+    if @map.count >= @max
+      @map.delete(@store.first.key)
+      @store.remove(@store.first.key)
+    end
+
   end
 end
