@@ -1,0 +1,3 @@
+      invoke  active_record
+      create    db/migrate/20170209220235_create_responses.rb
+      create    app/models/response.rb
